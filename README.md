@@ -3,7 +3,7 @@
 > A VSCode extension for React.
 
 
-## 🧩 Function List
+### 🧩 Function List
 
 | Function                | Description                              |
 | ------------------ | ------------------------------- |
@@ -14,7 +14,7 @@
 | Configurable options(via config file)      | Support options like include `PropTypes` / `interface` |
 
 
-## 📁 Component Structure Example（TypeScript）
+### 📁 Component Structure Example（TypeScript）
 
 
 ```bash
@@ -26,17 +26,18 @@ MyComponent/
 
 
 
-## 🔧 How To Use
+### 🔧 How To Use
 
 1. Pack Your `.vsix`
 
 ```bash
-$ vsce package
+$ npm install
+$ npm run build
  ```
 
 
 2. Command Install
 
 ```bash
-$ code --install-extension react-component-generator-0.0.1.vsix
+$ npm run install
 ```
