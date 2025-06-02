@@ -25,9 +25,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = __importStar(require("vscode"));
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const createComponent_1 = require("./createComponent");
 function activate(context) {
-    const disposable = vscode.commands.registerCommand('react-generator.createComponent', async (uri) => {
+    // Manual Create React Component
+    const manualCreateComponent = vscode.commands.registerCommand('react-generator.createComponent', async (uri) => {
         const componentName = await vscode.window.showInputBox({
             prompt: 'Enter the component name',
             placeHolder: 'MyComponent',
@@ -40,7 +43,29 @@ function activate(context) {
         (0, createComponent_1.createReactComponent)(componentName, targetPath, useTypeScript, useCssModule);
         vscode.window.showInformationMessage(`✅ React component "${componentName}" created!`);
     });
-    context.subscriptions.push(disposable);
+    // Auto watch *.tsx file
+    const autoCreateOnImport = vscode.workspace.onDidSaveTextDocument((doc) => {
+        if (!doc.fileName.endsWith('.tsx'))
+            return;
+        const content = doc.getText();
+        const currentDir = path.dirname(doc.fileName);
+        const importRegex = /import\s+\{\s*(\w+)\s*\}\s+from\s+['"](\.\/[^'"]+)['"]/g;
+        let match;
+        while ((match = importRegex.exec(content)) !== null) {
+            const componentName = match[1]; // Xxx
+            const importPath = match[2]; // './Xxx'
+            const absPath = path.resolve(currentDir, importPath);
+            const tsxFile = absPath + '.tsx';
+            const indexFile = path.join(absPath, 'index.ts');
+            const isMissing = !fs.existsSync(tsxFile) && !fs.existsSync(indexFile);
+            if (isMissing) {
+                const parentDir = path.dirname(absPath);
+                (0, createComponent_1.createReactComponent)(componentName, parentDir, true, true);
+                vscode.window.showInformationMessage(`✨ Auto-created: ${componentName}`);
+            }
+        }
+    });
+    context.subscriptions.push(manualCreateComponent, autoCreateOnImport);
 }
 exports.activate = activate;
 function deactivate() { }

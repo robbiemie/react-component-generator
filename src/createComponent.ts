@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+
 export const createReactComponent = (
   componentName: string,
   targetPath: string,
@@ -32,6 +33,7 @@ export const ${componentName} = (props: ${componentName}Props) => {
     const { classname } = props;
     return <div${useCssModule ? ` className={cx(s.wrapper, classname)}` : ''}>${componentName}</div>;
 };
+
 `;
 
 

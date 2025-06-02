@@ -2,7 +2,7 @@
   "name": "react-component-generator",
   "displayName": "React Component Generator",
   "description": "Quickly generate React component templates.",
-  "version": "0.0.2",
+  "version": "0.0.3-beta.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/robbiemie/react-component-generator.git"
@@ -11,7 +11,10 @@
     "vscode": "^1.70.0"
   },
   "categories": ["Other"],
-  "activationEvents": ["onCommand:react-generator.createComponent"],
+  "activationEvents": [
+    "onCommand:react-generator.createComponent",
+    "onLanguage:typescriptreact"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -33,7 +36,7 @@
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
     "build": "vsce package",
-    "install": "code --install-extension react-component-generator-0.0.2.vsix"
+    "install": "code --install-extension react-component-generator-0.0.3-beta.4.vsix"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
