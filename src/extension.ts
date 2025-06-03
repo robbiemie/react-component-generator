@@ -10,9 +10,9 @@ import {
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     manualCreateComponent,
-    autoCreateOnImport,
-    componentCompletionProvider,
-    autoCreateComponentCommand,
+    // autoCreateOnImport,
+    // componentCompletionProvider,
+    // autoCreateComponentCommand,
   );
 }
 
