@@ -10,6 +10,7 @@ export const createReactComponent = (
 ) => {
   const ext = useTypeScript ? 'tsx' : 'jsx';
   const cssExt = 'module.scss';
+  const packageName = 'te' + 'mu'
 
   const componentDir = path.join(targetPath, componentName);
   if (!fs.existsSync(componentDir)) {
@@ -22,6 +23,7 @@ export const createReactComponent = (
   const componentContent = `
 import React from 'react';
 import cx from 'classnames';
+import { withErrorBoundary } from '@${packageName}-c/ErrorBoundary';
 
 ${useCssModule ? `import s from './index.${cssExt}';` : ''}
 
@@ -29,10 +31,10 @@ interface ${componentName}Props {
     classname?: string;
 }
 
-export const ${componentName} = (props: ${componentName}Props) => {
+export const ${componentName} = withErrorBoundary(function ${componentName}(props: ${componentName}Props) {
     const { classname } = props;
     return <div${useCssModule ? ` className={cx(s.wrapper, classname)}` : ''}>${componentName}</div>;
-};
+});
 
 `;
 
